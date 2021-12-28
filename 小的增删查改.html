@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="/Users/happy/Documents/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div v-if="books.length===0">
+        <div>购物车为空</div>
+      </div>
+      <div v-else>
+        <table border="3">
+          <tr>
+            <th>ID</th>
+            <th>名称</th>
+            <th>价格</th>
+            <th>数量</th>
+            <th>操作</th>
+          </tr>
+          <tr v-for="(item,index) in books">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.price}}</td>
+            <td>
+              <button @click="decreaseCount(index)" :disabled="item.count<=1">
+                -
+              </button>
+              {{item.count}}
+              <button @click="increaseCount(index)">+</button>
+            </td>
+            <td>
+              <button @click="remove(index)">移除</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div>总价格：{{totalSum}}</div>
+    </div>
+    <script>
+      let app = new Vue({
+        el: "#app",
+        data: {
+          isActive: false,
+          books: [
+            {
+              id: 1,
+              name: "刻意练习",
+              price: 110,
+              count: 1,
+            },
+            {
+              id: 2,
+              name: "刻意练习1",
+              price: 110,
+              count: 1,
+            },
+            {
+              id: 3,
+              name: "刻意练习2",
+              price: 110,
+              count: 1,
+            },
+            {
+              id: 4,
+              name: "刻意练习3",
+              price: 110,
+              count: 1,
+            },
+          ],
+        },
+        methods: {
+          increaseCount(index) {
+            this.books[index].count++;
+          },
+          decreaseCount(index) {
+            this.books[index].count--;
+          },
+          remove(index) {
+            this.books.splice(index, 1);
+          },
+        },
+        computed: {
+          totalSum() {
+            let result = 0;
+            let i = 0;
+            for (i; i < this.books.length; i++) {
+              result += this.books[i].price * this.books[i].count;
+            }
+            return result;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
